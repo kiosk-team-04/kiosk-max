@@ -1,9 +1,9 @@
 .dim {
-  width: 100vw;
-  height: 100vh;
-  background-color: #808080;
-  opacity: 0.3;
+  width: 900px;
+  height: 1095px;
+  margin: 0 auto;
+  background-color: #444444;
+  opacity: 0.5;
   position: fixed;
   top: 0;
-  left: 0;
 }
