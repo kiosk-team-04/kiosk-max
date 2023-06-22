@@ -4,80 +4,133 @@
 // 옵션들의 default값을 설정해야하나? 수량도 0으로 하는게 좋을까?
 // 옵션을 선택해야만 담기 버튼이 활성화 되게 할까?
 
-import React from 'react';
+import { useState } from 'react';
 import styles from './Menu.module.css';
 
 export default function MenuModal({ handleCloseModal }) {
+  const menu = {
+    id: 1,
+    name: '아메리카노',
+    img: 'https://private-user-images.githubusercontent.com/101464713/247221166-5497bd59-6c56-49ee-ab91-c5b3223a880c.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJrZXkxIiwiZXhwIjoxNjg3Mzc2Njk3LCJuYmYiOjE2ODczNzYzOTcsInBhdGgiOiIvMTAxNDY0NzEzLzI0NzIyMTE2Ni01NDk3YmQ1OS02YzU2LTQ5ZWUtYWI5MS1jNWIzMjIzYTg4MGMucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQUlXTkpZQVg0Q1NWRUg1M0ElMkYyMDIzMDYyMSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyMzA2MjFUMTkzOTU3WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZjNlODM5MGViYTA0YWQwNGRhOTQzOWM4ZGNlMzRhNDczNjVhYWVhYWRhYzU5ZDk5ZWIwMzIwODYzZmZiMWMyMiZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmYWN0b3JfaWQ9MCZrZXlfaWQ9MCZyZXBvX2lkPTAifQ.V78CGbczVQNgdwxaRddJAChaXVMdRhKO43OmASusUag',
+    price: 4000,
+    option: {
+      size: ['M', 'L'],
+      temperature: ['Hot', 'Ice'],
+    },
+  };
+
   return (
     <div className={styles.wrapper}>
-      <Close handleCloseModal={handleCloseModal} />
       <div className={styles.container}>
-        <div className={styles.info}>
-          <Menu />
-          <Options />
-        </div>
-        <Add />
+        <Info
+          img={menu.img}
+          name={menu.name}
+          price={menu.price}
+          option={menu.option}
+        />
+        <Decision handler={handleCloseModal} />
       </div>
     </div>
   );
 }
 
-function Close({ handleCloseModal }) {
+function Info({ img, name, price, option }) {
   return (
-    <button className={styles.close} type="button" onClick={handleCloseModal}>
-      X
-    </button>
+    <div className={styles.info}>
+      <Menu img={img} name={name} price={price} />
+      <Options option={option} />
+    </div>
   );
 }
 
-function Menu() {
+function Menu({ img, name, price }) {
   return (
     <div className={styles.menu}>
-      <img
-        src="https://private-user-images.githubusercontent.com/101464713/247221166-5497bd59-6c56-49ee-ab91-c5b3223a880c.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJrZXkxIiwiZXhwIjoxNjg3Mjg1NDIwLCJuYmYiOjE2ODcyODUxMjAsInBhdGgiOiIvMTAxNDY0NzEzLzI0NzIyMTE2Ni01NDk3YmQ1OS02YzU2LTQ5ZWUtYWI5MS1jNWIzMjIzYTg4MGMucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQUlXTkpZQVg0Q1NWRUg1M0ElMkYyMDIzMDYyMCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyMzA2MjBUMTgxODQwWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NDU2OGM2MzZjNTcyNjJmNGM0ZGQwZjc1N2U2NTczZDcwNjY5ODc0MWNiNjE3YzhlOWU1NmQyNTA2Y2Y2ZjhjYyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmYWN0b3JfaWQ9MCZrZXlfaWQ9MCZyZXBvX2lkPTAifQ.61A0AoduU_7MdQtBTWsT8C5E5HLKCTkG8OkkUh47l-M"
-        alt=""
-      />
-      <span className={styles.name}>아메리카노</span>
-      <span className={styles.price}>4000</span>
+      <img src={img} alt={name} />
+      <span className={styles.name}>{name}</span>
+      <span className={styles.price}>{price}</span>
     </div>
   );
 }
 
-function Options() {
+function Options({ option }) {
+  const [count, setCount] = useState(1);
+
   return (
     <div className={styles.options}>
-      <Size />
-      <Temperature />
-      <Count />
+      <Size id={option.id} size={option.size} />
+      <Temperature id={option.id} temperature={option.temperature} />
+      <Count count={count} setCount={setCount} />
     </div>
   );
 }
 
-function Size() {
+function Size({ id, size }) {
   return (
     <div className={styles.size}>
-      <button type="button">큰거</button>
-      <button type="button">작은거</button>
+      {size.map((option) => (
+        <button key={id} type="button">
+          {option}
+        </button>
+      ))}
     </div>
   );
 }
 
-function Temperature() {
+function Temperature({ id, temperature }) {
   return (
     <div className={styles.temperature}>
-      <button type="button">뜨거운 것</button>
-      <button type="button">차가운 것</button>
+      {temperature.map((option) => (
+        <button key={id} type="button">
+          {option}
+        </button>
+      ))}
     </div>
   );
 }
 
-function Count() {
+function Count({ count, setCount }) {
+  const handleIncrement = () => {
+    if (count < 99) {
+      setCount(count + 1);
+    }
+  };
+
+  const handleDecrement = () => {
+    if (count > 1) {
+      setCount(count - 1);
+    }
+  };
+
   return (
-    <div className={styles.count}>
-      <button type="button">-</button>
-      <div>1</div>
-      <button type="button">+</button>
+    <div className={styles.counter}>
+      <button type="button" onClick={handleDecrement}>
+        -
+      </button>
+      <div>
+        <p className={styles.count}>{count}</p>
+      </div>
+      <button type="button" onClick={handleIncrement}>
+        +
+      </button>
     </div>
+  );
+}
+
+function Decision({ handler }) {
+  return (
+    <div className={styles.decision}>
+      <Cancel handleCloseModal={handler} />
+      <Add />
+    </div>
+  );
+}
+
+function Cancel({ handleCloseModal }) {
+  return (
+    <button className={styles.cancel} type="button" onClick={handleCloseModal}>
+      취소
+    </button>
   );
 }
 
