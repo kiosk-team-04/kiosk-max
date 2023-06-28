@@ -9,7 +9,7 @@ export default function Info({
 }) {
   return (
     <div className={styles.info}>
-      <Menu selectedItem={selectedItem} />
+      <Menu selectedItem={selectedItem} itemStatus={itemStatus} />
       <Options
         selectedItem={selectedItem}
         cartItem={cartItem}
@@ -45,12 +45,12 @@ function Options({ selectedItem, cartItem, setCartItem }) {
   return (
     <div className={styles.options}>
       <Size
-        sizeList={sizeList.value}
+        sizeList={sizeList.values}
         cartItem={cartItem}
         setCartItem={setCartItem}
       />
       <Temperature
-        temperatureList={temperatureList.value}
+        temperatureList={temperatureList.values}
         cartItem={cartItem}
         setCartItem={setCartItem}
       />
@@ -65,7 +65,7 @@ function Size({ sizeList, cartItem, setCartItem }) {
   useEffect(() => {
     setCartItem({
       ...cartItem,
-      size: sizeList[selectedSizeId - 1].id,
+      size: sizeList[selectedSizeId - sizeList[0].id].id,
     });
   }, [selectedSizeId]);
 
@@ -82,7 +82,7 @@ function Size({ sizeList, cartItem, setCartItem }) {
           type="button"
           onClick={() => handleSelectedSizeId(option.id)}
         >
-          {option.detail}
+          {option.value}
         </button>
       ))}
     </div>
@@ -97,7 +97,8 @@ function Temperature({ temperatureList, cartItem, setCartItem }) {
   useEffect(() => {
     setCartItem({
       ...cartItem,
-      temperature: temperatureList[selectedTemperature - 1].id,
+      temperature:
+        temperatureList[selectedTemperature - temperatureList[0].id].id,
     });
   }, [selectedTemperature]);
 
@@ -116,7 +117,7 @@ function Temperature({ temperatureList, cartItem, setCartItem }) {
           type="button"
           onClick={() => handleSelectedTemperature(option.id)}
         >
-          {option.detail}
+          {option.value}
         </button>
       ))}
     </div>
