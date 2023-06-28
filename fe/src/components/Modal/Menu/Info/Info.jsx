@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import styles from './Info.module.css';
 
-export default function Info({ selectedItem, cartItem, setCartItem }) {
+export default function Info({
+  selectedItem,
+  cartItem,
+  setCartItem,
+  itemStatus,
+}) {
   return (
     <div className={styles.info}>
       <Menu selectedItem={selectedItem} />
@@ -14,11 +19,15 @@ export default function Info({ selectedItem, cartItem, setCartItem }) {
   );
 }
 
-function Menu({ selectedItem }) {
+function Menu({ selectedItem, itemStatus }) {
   const { img, name, price } = selectedItem;
 
   return (
-    <div className={styles.menu}>
+    <div
+      className={
+        itemStatus ? `${styles.menu} ${styles.added}` : `${styles.menu}`
+      }
+    >
       <img src={img} alt={name} />
       <span className={styles.name}>{name}</span>
       <span className={styles.price}>{price}</span>
