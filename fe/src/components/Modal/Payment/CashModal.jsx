@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import styles from './CashModal.module.css';
 
+const cashLists = [
+  { id: 1, value: 100 },
+  { id: 2, value: 500 },
+  { id: 3, value: 1000 },
+  { id: 4, value: 10000 },
+];
+
 export default function CashModal({
   setShowMode,
   orderPrice,
@@ -14,13 +21,6 @@ export default function CashModal({
     receivedAmount: totalInput,
     payment: 'CASH',
   };
-
-  const cashLists = [
-    { id: 1, value: 100 },
-    { id: 2, value: 500 },
-    { id: 3, value: 1000 },
-    { id: 4, value: 10000 },
-  ];
 
   const handleClickCash = (price) => {
     setTotalInput(totalInput + price);
